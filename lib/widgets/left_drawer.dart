@@ -21,7 +21,7 @@ class LeftDrawer extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Colors.blue,
                   ),
                 ),
                 Padding(padding: EdgeInsets.all(10)),
