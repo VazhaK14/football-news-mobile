@@ -15,7 +15,7 @@ class NewsFormPage extends StatefulWidget {
 class _NewsFormPageState extends State<NewsFormPage> {
   final _formKey = GlobalKey<FormState>();
 
-  final String _title = "";
+  String _title = "";
   String _content = "";
   String _category = "update"; // default
   String _thumbnail = "";
@@ -60,8 +60,7 @@ class _NewsFormPageState extends State<NewsFormPage> {
                   ),
                   onChanged: (String? value) {
                     setState(() {
-                      _title:
-                      value!;
+                      _title = value!;
                     });
                   },
                   validator: (String? value) {
@@ -109,7 +108,7 @@ class _NewsFormPageState extends State<NewsFormPage> {
                       borderRadius: BorderRadius.circular(5.0),
                     ),
                   ),
-                  value: _category,
+                  initialValue: _category,
                   items: _categories
                       .map(
                         (cat) => DropdownMenuItem(
@@ -169,42 +168,40 @@ class _NewsFormPageState extends State<NewsFormPage> {
                     ),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        if (_formKey.currentState!.validate()) {
-                          // To connect Android emulator with Django on localhost, use URL http://10.0.2.2/
-                          // If you using chrome,  use URL http://localhost:8000
+                        // To connect Android emulator with Django on localhost, use URL http://10.0.2.2/
+                        // If you using chrome,  use URL http://localhost:8000
 
-                          final response = await request.postJson(
-                            "http://127.0.0.1:8000/create-flutter/",
-                            jsonEncode({
-                              "title": _title,
-                              "content": _content,
-                              "thumbnail": _thumbnail,
-                              "category": _category,
-                              "is_featured": _isFeatured,
-                            }),
-                          );
-                          if (context.mounted) {
-                            if (response['status'] == 'success') {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text("News successfully saved!"),
+                        final response = await request.postJson(
+                          "http://127.0.0.1:8000/create-flutter/",
+                          jsonEncode({
+                            "title": _title,
+                            "content": _content,
+                            "thumbnail": _thumbnail,
+                            "category": _category,
+                            "is_featured": _isFeatured,
+                          }),
+                        );
+                        if (context.mounted) {
+                          if (response['status'] == 'success') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("News successfully saved!"),
+                              ),
+                            );
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MyHomePage(),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  "Something went wrong, please try again.",
                                 ),
-                              );
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MyHomePage(),
-                                ),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    "Something went wrong, please try again.",
-                                  ),
-                                ),
-                              );
-                            }
+                              ),
+                            );
                           }
                         }
                       }

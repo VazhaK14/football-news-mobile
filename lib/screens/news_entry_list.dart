@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:football_news/models/news_entry.dart';
 import 'package:football_news/widgets/left_drawer.dart';
-import 'package:football_news/screens/news_detail.dart';
 import 'package:football_news/widgets/news_entry_card.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -25,12 +24,12 @@ class _NewsEntryListPageState extends State<NewsEntryListPage> {
     var data = response;
     // Convert json data to NewsEntry objects
     List<NewsEntry> listNews = [];
+    
     for (var d in data) {
       if (d != null) {
         listNews.add(NewsEntry.fromJson(d));
       }
     }
-    print(listNews.length);
     return listNews;
   }
 
